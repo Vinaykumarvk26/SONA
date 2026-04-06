@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     hf_ser_model_id: str = "r-f/wav2vec-english-speech-emotion-recognition"
     hf_local_files_only: bool = False
     log_level: str = "INFO"
-    cors_origins: str = "http://localhost:5173"
+    cors_origins: str = "http://localhost:5173,https://ai-sona.vercel.app"
     expose_reset_token_in_response: bool = True
 
     class Config:
