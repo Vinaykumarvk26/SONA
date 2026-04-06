@@ -42,17 +42,33 @@ api.interceptors.request.use((config) => {
 });
 
 const fallbackApiBases = [];
-if (import.meta.env.DEV) fallbackApiBases.push("/api/v1");
-fallbackApiBases.push(runtimeDirectApiBase, "http://127.0.0.1:8010/api/v1", "http://localhost:8010/api/v1");
+if (import.meta.env.DEV) {
+  fallbackApiBases.push("/api/v1", runtimeDirectApiBase, "http://127.0.0.1:8010/api/v1", "http://localhost:8010/api/v1");
+}
 if (rawExplicitApiBase && explicitApiBase && explicitApiBase !== rawExplicitApiBase) {
   fallbackApiBases.unshift(explicitApiBase);
 }
+
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const config = error?.config;
-    if (!config || error?.response || config.__apiFallbackRetried || fallbackApiBases.length === 0) {
+    if (!config) return Promise.reject(error);
+
+    // Exponential backoff logic for connection issues (cold starts)
+    if (!error?.response) {
+      config.__retryCount = config.__retryCount || 0;
+      if (config.__retryCount < 3) {
+        config.__retryCount += 1;
+        const waitTime = config.__retryCount * 2000; // 2s, 4s, 6s
+        await delay(waitTime);
+        return api.request(config);
+      }
+    }
+
+    if (error?.response || config.__apiFallbackRetried || fallbackApiBases.length === 0 || import.meta.env.PROD) {
       return Promise.reject(error);
     }
 
