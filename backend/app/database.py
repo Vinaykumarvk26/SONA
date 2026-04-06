@@ -35,7 +35,14 @@ def init_db() -> None:
     """Example bootstrap for local/dev usage; Alembic should own prod migrations."""
     import app.models  # noqa: F401
 
-    Base.metadata.create_all(bind=engine)
+    from sqlalchemy.exc import OperationalError
+
+    try:
+        Base.metadata.create_all(bind=engine)
+    except OperationalError as exc:
+        # SQLite can sometimes report existing indexes on redeploy; ignore those.
+        if "already exists" not in str(exc):
+            raise
     _apply_sqlite_compat_fixes()
 
 
