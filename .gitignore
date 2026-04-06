@@ -1,0 +1,39 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Node / frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Python / backend
+backend/.venv/
+backend/.venv_local/
+backend/__pycache__/
+backend/**/__pycache__/
+*.pyc
+
+# Secrets / env
+backend/.env
+.env
+.env.*
+
+# Datasets / checkpoints / outputs
+backend/datasets/
+backend/checkpoints/
+backend/train/
+backend/notebooks/results/
+backend/notebooks/*.ipynb
+
+# Logs
+backend/logs/
+logs/
+*.log
+
+# Databases
+*.db
+backend/emotion_music.db
+emotion_music.db
+

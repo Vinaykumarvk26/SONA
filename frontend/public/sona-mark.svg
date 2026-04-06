@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="SONA mark">
+  <defs>
+    <radialGradient id="bg" cx="30%" cy="28%" r="78%">
+      <stop offset="0%" stop-color="#8ed9ff" />
+      <stop offset="46%" stop-color="#5f7bff" />
+      <stop offset="100%" stop-color="#8b3cff" />
+    </radialGradient>
+    <linearGradient id="sgrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c9f3ff" />
+      <stop offset="55%" stop-color="#cdb8ff" />
+      <stop offset="100%" stop-color="#ffe0ff" />
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="58" fill="url(#bg)" />
+  <path
+    d="M88 38c-7-8-18-12-31-12-14 0-25 4-33 11-8 7-12 16-12 26s4 19 12 26c8 7 20 11 34 11 11 0 21-3 29-8v-13c-8 5-17 8-28 8-10 0-18-2-24-7s-9-11-9-18 3-13 9-18 14-7 24-7c10 0 18 3 25 9z"
+    fill="url(#sgrad)"
+  />
+  <circle cx="64" cy="64" r="58" fill="none" stroke="#ffffff" stroke-opacity=".22" stroke-width="2" />
+</svg>
