@@ -1,5 +1,6 @@
-﻿import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Webcam from "react-webcam";
+import ReactGA from "react-ga4";
 import {
   ArcElement,
   BarElement,
@@ -685,6 +686,11 @@ export default function App() {
     }
   };
 
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: window.location.pathname });
+  }, [activePage]);
+
+
   const handleBrandClick = () => {
     setShowProfileMenu(false);
     if (authUser) {
@@ -900,6 +906,7 @@ export default function App() {
 
   const lockEmotion = async (channel, emotion) => {
     if (!emotion) return;
+    ReactGA.event({ category: "Engagement", action: "analysis_complete", label: emotion?.label });
     if (channel === "face") setFaceLock(emotion);
     if (channel === "speech") setSpeechLock(emotion);
     setFeedbackState((prev) => ({ ...prev, [channel]: "" }));
@@ -918,6 +925,7 @@ export default function App() {
   const handleFaceDetect = async () => {
     setUiError("");
     try {
+      ReactGA.event({ category: "Engagement", action: "start_facial_scan" });
       await primeMediaPlayback();
       setFaceStatus("detecting");
       let imageBlob;
@@ -957,6 +965,7 @@ export default function App() {
     setSpeechTranscript("");
     setSpeechInterimTranscript("");
     try {
+      ReactGA.event({ category: "Engagement", action: "start_audio_scan" });
       await primeMediaPlayback();
       setSpeechStatus("detecting");
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
